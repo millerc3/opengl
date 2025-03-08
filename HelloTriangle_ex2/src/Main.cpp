@@ -14,7 +14,22 @@ void processInput(GLFWwindow* window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-std::optional<GLuint> LoadShaders() {
+void PlaceVertices(std::vector<float>& vertices, unsigned int& VBO, unsigned int& VAO) {
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+std::optional<GLuint> CreateShaderProgram_1() {
     std::optional<GLuint> vertShader, fragShader, shaderProgram;
     vertShader = LoadShaderFromFile("src/shaders/shader.vert", GL_VERTEX_SHADER);
     if (!vertShader) {
@@ -70,11 +85,31 @@ int main()
 
     // Load the shaders into a program to use later
     // --------------------------------------------
-    std::optional<GLuint> programIDOpt = LoadShaders();
+    std::optional<GLuint> programIDOpt = CreateShaderProgram_1();
     if (!programIDOpt) {
         return -1;
     }
     GLuint programID = *programIDOpt;
+
+    std::vector<float> vertices_left = {
+        // first triangle
+        -0.9f, -0.5f, 0.0f,  // left 
+        -0.0f, -0.5f, 0.0f,  // right
+        -0.45f, 0.5f, 0.0f,  // top
+    };
+
+    std::vector<float> vertices_right = {
+        // second triangle
+         0.0f, -0.5f, 0.0f,  // left
+         0.9f, -0.5f, 0.0f,  // right
+         0.45f, 0.5f, 0.0f   // top 
+    };
+
+    unsigned int VBOs[2], VAOs[2];
+
+    PlaceVertices(vertices_left, VBOs[0], VAOs[0]);
+
+    PlaceVertices(vertices_right, VBOs[1], VAOs[1]);
 
     // render loop
     // -----------
@@ -84,11 +119,27 @@ int main()
         // -----
         processInput(window);
 
+        // render
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // draw vertices
+        glUseProgram(programID);
+        glBindVertexArray(VAOs[0]);
+        glDrawArrays(GL_TRIANGLES, 0, vertices_left.size() / 3);
+        glBindVertexArray(VAOs[1]);
+        glDrawArrays(GL_TRIANGLES, 0, vertices_right.size() / 3);
+
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    glDeleteVertexArrays(2, VAOs);
+    glDeleteBuffers(2, VBOs);
+    glDeleteProgram(programID);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
