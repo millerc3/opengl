@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Shader.h" />
+    <ClInclude Include="include\utils\shader_loader.h" />
     <ClInclude Include="Libraries\include\glad\glad.h" />
     <ClInclude Include="Libraries\include\GLFW\glfw3.h" />
     <ClInclude Include="Libraries\include\GLFW\glfw3native.h" />
@@ -28,17 +29,20 @@
   <ItemGroup>
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\utils\shader_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\shaders\color_passthru.frag" />
     <None Include="src\shaders\cyan.frag" />
     <None Include="src\shaders\orange.frag" />
     <None Include="src\shaders\shader.vert" />
+    <None Include="src\shaders\simple_uniform.frag" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8c535d95-8439-4119-9c4a-917b9e7e7526}</ProjectGuid>
-    <RootNamespace>OpenGLTemplate</RootNamespace>
+    <ProjectGuid>{04402978-f884-4873-8f73-aa846c91e24a}</ProjectGuid>
+    <RootNamespace>Shaders</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
