@@ -320,6 +320,7 @@
     <ClCompile Include="include\glm\glm.cppm" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\glm\detail\func_common.inl" />
