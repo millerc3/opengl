@@ -8,7 +8,9 @@ enum CameraMovement_t {
 	FORWARD,
 	BACKWARD,
 	LEFT,
-	RIGHT
+	RIGHT,
+	UP,
+	DOWN
 };
 
 // default camera values
@@ -75,6 +77,12 @@ public:
 		}
 		if (direction == RIGHT) {
 			Position += Right * velocity;
+		}
+		if (direction == UP) {
+			Position += WorldUp * velocity;
+		}
+		if (direction == DOWN) {
+			Position -= WorldUp * velocity;
 		}
 	}
 

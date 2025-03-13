@@ -1352,5 +1352,8 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="src\shaders\simple_texture.frag" />
+    <None Include="src\shaders\lighting.frag" />
+    <None Include="src\shaders\light.frag" />
+    <None Include="src\shaders\basic_lighting.vert" />
   </ItemGroup>
 </Project>

@@ -466,7 +466,10 @@
     <None Include="include\glm\gtx\vector_angle.inl" />
     <None Include="include\glm\gtx\vector_query.inl" />
     <None Include="include\glm\gtx\wrap.inl" />
+    <None Include="src\shaders\basic_lighting.vert" />
     <None Include="src\shaders\cyan.frag" />
+    <None Include="src\shaders\light.frag" />
+    <None Include="src\shaders\lighting.frag" />
     <None Include="src\shaders\orange.frag" />
     <None Include="src\shaders\shader.vert" />
     <None Include="src\shaders\simple_texture.frag" />

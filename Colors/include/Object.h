@@ -49,16 +49,20 @@ public:
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, Indices.size() * sizeof(int), Indices.data(), GL_STATIC_DRAW);
 
 		// Position Attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
 		// Color Attribute
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 	
 		// Texture coords
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
 		glEnableVertexAttribArray(2);
+
+		// Normal Vectors
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+		glEnableVertexAttribArray(3);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
@@ -77,6 +81,7 @@ public:
 		if (data) {
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
+			_hasTexture = true;
 		}
 		else {
 			std::cerr << "Failed to load texture" << std::endl;
@@ -89,8 +94,16 @@ public:
 		return _texture;
 	}
 
+	bool HasTexture() {
+		return _hasTexture;
+	}
+
+	void SetColor(glm::vec3 color) {
+		Color = color;
+	}
+
 protected:
-	void addVertex(glm::vec3 pos, glm::vec2 texCoord) {
+	void addVertex(glm::vec3 pos, glm::vec2 texCoord, glm::vec3 norm) {
 		Vertices.emplace_back(pos.x);
 		Vertices.emplace_back(pos.y);
 		Vertices.emplace_back(pos.z);
@@ -101,6 +114,10 @@ protected:
 
 		Vertices.emplace_back(texCoord.x);
 		Vertices.emplace_back(texCoord.y);
+
+		Vertices.emplace_back(norm.x);
+		Vertices.emplace_back(norm.y);
+		Vertices.emplace_back(norm.z);
 	}
 
 	void addIndices(glm::uvec3 triangle) {
@@ -113,6 +130,6 @@ protected:
 private:
 	GLuint _VAO, _VBO, _EBO;
 	GLuint _texture;
-
+	bool _hasTexture = false;
 	
 };
