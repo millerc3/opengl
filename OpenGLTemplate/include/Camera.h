@@ -8,7 +8,9 @@ enum CameraMovement_t {
 	FORWARD,
 	BACKWARD,
 	LEFT,
-	RIGHT
+	RIGHT,
+	UP,
+	DOWN
 };
 
 // default camera values
@@ -63,18 +65,24 @@ public:
 	//     (Accempts input parameter in the form of camera defined ENUM - to abstract it from windowing systems)
 	void ProcessKeyboard(CameraMovement_t direction, float deltaTime) {
 		float velocity = MovementSpeed * deltaTime;
-		glm::vec3 flatFront = glm::normalize(glm::vec3(Front.x, 0.0f, Front.z));
+		//glm::vec3 flatFront = glm::normalize(glm::vec3(Front.x, 0.0f, Front.z));
 		if (direction == FORWARD) {
-			Position += flatFront * velocity;
+			Position += Front * velocity;
 		}
 		if (direction == BACKWARD) {
-			Position -= flatFront * velocity;
+			Position -= Front * velocity;
 		}
 		if (direction == LEFT) {
 			Position -= Right * velocity;
 		}
 		if (direction == RIGHT) {
 			Position += Right * velocity;
+		}
+		if (direction == UP) {
+			Position += WorldUp * velocity;
+		}
+		if (direction == DOWN) {
+			Position -= WorldUp * velocity;
 		}
 	}
 
