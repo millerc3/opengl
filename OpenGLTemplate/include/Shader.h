@@ -8,6 +8,9 @@
 #include <sstream>
 #include <iostream>
 
+#include <Material.h>
+#include <Light.h>
+
 class Shader
 {
 public:
@@ -130,6 +133,22 @@ public:
 	void setMat4(const std::string& name, const glm::mat4& mat) const
 	{
 		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+	}
+
+
+	void setMaterialProperties(MaterialProperties mat) {
+		setVec3("material.ambient", mat.ambient);
+		setVec3("material.diffuse", mat.diffuse);
+		setVec3("material.specular", mat.specular);
+		setFloat("material.shininess", mat.shininess);
+	}
+
+	void setLightProperties(glm::vec3 position, LightProperties light) {
+		setVec3("light.color", light.color);
+		setVec3("light.position", position);
+		setVec3("light.ambient", light.ambient);
+		setVec3("light.diffuse", light.diffuse);
+		setVec3("light.specular", light.specular);
 	}
 
 private:

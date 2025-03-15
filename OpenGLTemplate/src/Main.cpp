@@ -71,9 +71,13 @@ int main()
     }
 
 
-    Shader shader("src/shaders/shader.vert", "src/shaders/simple_texture.frag");
-    Cube cube(1);
+    Shader cubeShader("../data/shaders/phong.vert", "../data/shaders/lit_texture.frag");
+    Cube cube = Cube(glm::vec3(1));
     cube.SetTexture("../data/textures/container.jpg");
+
+
+    Shader lightShader("../data/shaders/shader.vert", "../data/shaders/light.frag");
+    Light light = Light();
 
     // render loop
     // -----------
@@ -93,15 +97,61 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shader.use();
-        shader.setMat4("transform", glm::mat4(1.0f));
-        shader.setMat4("model", glm::mat4(1.0f));
-        shader.setMat4("view", camera.GetViewMatrix());
-        shader.setMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f));
+        // Move light
+        float light_height = 1.5f;
+        float light_radius = 3.0f;
+        glm::vec3 lightPos = glm::vec3(cos(glfwGetTime()) * light_radius, light_height, sin(glfwGetTime()) * light_radius);
+        light.Move(lightPos);
+        light.transform.Scale = glm::vec3(.2f);
+
+        // Light info
+        glm::vec3 lightColor;
+        lightColor.x = sin(glfwGetTime() * 2.0f);
+        lightColor.y = sin(glfwGetTime() * 0.7f);
+        lightColor.z = sin(glfwGetTime() * 1.3f);
+        light.SetColor(lightColor);
+
+
+        // Light Shader
+        lightShader.use();
+        lightShader.setMat4("view", camera.GetViewMatrix());
+        lightShader.setMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f));
+        lightShader.setMat4("model", light.GetModelTransformationMatrix());
+
+        //lightShader.setMaterialProperties(light.Material);
+
+
+        // Draw Light
+        light.Draw();
+
+
+        // Move cube
+        float cubeHeight = sin(glfwGetTime());
+        glm::vec3 cubePos = glm::vec3(0, cubeHeight, 0);
+        cube.Move(cubePos);
+
+        // Cube shader
+        cubeShader.use();
+        cubeShader.setMat4("view", camera.GetViewMatrix());
+        cubeShader.setMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f));
+        cubeShader.setMat4("model", cube.GetModelTransformationMatrix());
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, cube.GetTexture());
-        shader.setInt("texture", 0);
+        cubeShader.setInt("texture", 0);
+        cubeShader.setInt("hasTexture", cube.HasTexture());
+
+        MaterialProperties cubeMat = MaterialProperties(glm::vec3(.9f),
+            glm::vec3(1),
+            glm::vec3(.5f),
+            32.0f);
+        cube.SetMaterial(cubeMat);
+        cubeShader.setLightProperties(light.transform.Position, light.properties);
+        cubeShader.setMaterialProperties(cube.Material);
+        cubeShader.setVec3("lightPos", light.transform.Position);
+        cubeShader.setVec3("viewPos", camera.Position);
+
+        // draw cube
         cube.Draw();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -111,6 +161,7 @@ int main()
     }
 
     cube.Destroy();
+    light.Destroy();
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------

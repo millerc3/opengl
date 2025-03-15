@@ -4,53 +4,68 @@
 
 class Cube : public Object {
 public:
-	int Width;
-	int Height;
-	int Depth;
-
-	Cube(unsigned int size) {
-		Width = Height = Depth = size;
+	Cube(glm::vec3 color) {
+		SetColor(color);
 		Initialize();
+	}
+
+	Cube() : Cube(glm::vec3(1.0f)) {
+
 	}
 
 	void Initialize() override {
 
-		addVertex(glm::vec3(Width / 2.0f, Height / 2.0f, -Depth / 2.0f), glm::vec2(1.0f, 1.0f)); // Front Top Right
-		addVertex(glm::vec3(Width / 2.0f, -Height / 2.0f, -Depth / 2.0f), glm::vec2(1.0f, 0.0f)); // Front Bottom Right
-		addVertex(glm::vec3(-Width / 2.0f, -Height / 2.0f, -Depth / 2.0f), glm::vec2(0.0f, 0.0f)); // Front Bottom LEFT
-		addVertex(glm::vec3(-Width / 2.0f, Height / 2.0f, -Depth / 2.0f), glm::vec2(0.0f, 1.0f)); // Front Top Left
 
-		addVertex(glm::vec3(Width / 2.0f, Height / 2.0f, Depth / 2.0f), glm::vec2(1.0f, 1.0f)); // Back Top Right
-		addVertex(glm::vec3(Width / 2.0f, -Height / 2.0f, Depth / 2.0f), glm::vec2(1.0f, 0.0f)); // Back Bottom Right
-		addVertex(glm::vec3(-Width / 2.0f, -Height / 2.0f, Depth / 2.0f), glm::vec2(0.0f, 0.0f)); // Back Bottom LEFT
-		addVertex(glm::vec3(-Width / 2.0f, Height / 2.0f, Depth / 2.0f), glm::vec2(0.0f, 1.0f)); // Back Top Left
+		// Add vertices
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 4; j++) {
+				addVertex(_positions[_faces[i][j]], _texCoords[j], _normals[i]);
+			}
+		}
 
-		addVertex(glm::vec3(-Width / 2.0f, Height / 2.0f, -Depth / 2.0f), glm::vec2(1.0f, 1.0f)); // Left Top Right
-		addVertex(glm::vec3(-Width / 2.0f, -Height / 2.0f, -Depth / 2.0f), glm::vec2(1.0f, 0.0f)); // Left Bottom Right
-		addVertex(glm::vec3(-Width / 2.0f, -Height / 2.0f, Depth / 2.0f), glm::vec2(0.0f, 0.0f)); // Left Bottom LEFT
-		addVertex(glm::vec3(-Width / 2.0f, Height / 2.0f, Depth / 2.0f), glm::vec2(0.0f, 1.0f)); // Left Top Left
-
-		addVertex(glm::vec3(Width / 2.0f, Height / 2.0f, Depth / 2.0f), glm::vec2(0.0f, 1.0f)); // Right Top Left
-		addVertex(glm::vec3(Width / 2.0f, Height / 2.0f, -Depth / 2.0f), glm::vec2(1.0f, 1.0f)); // Right Top Right
-		addVertex(glm::vec3(Width / 2.0f, -Height / 2.0f, -Depth / 2.0f), glm::vec2(1.0f, 0.0f)); // Right Bottom Left
-		addVertex(glm::vec3(Width / 2.0f, -Height / 2.0f, Depth / 2.0f), glm::vec2(0.0f, 0.0f)); // Right Bottom Right
-
-		addVertex(glm::vec3(Width / 2.0f, Height / 2.0f, -Depth / 2.0f), glm::vec2(0.0f, 1.0f)); // Up Back Right
-		addVertex(glm::vec3(Width / 2.0f, Height / 2.0f, Depth / 2.0f), glm::vec2(1.0f, 1.0f)); // Up Front Right
-		addVertex(glm::vec3(-Width / 2.0f, Height / 2.0f, Depth / 2.0f), glm::vec2(1.0f, 0.0f)); // Up Front Left
-		addVertex(glm::vec3(-Width / 2.0f, Height / 2.0f, -Depth / 2.0f), glm::vec2(0.0f, 0.0f)); // Up Back Left
-
-		addVertex(glm::vec3(Width / 2.0f, -Height / 2.0f, Depth / 2.0f), glm::vec2(1.0f, 1.0f)); // Down Front Right
-		addVertex(glm::vec3(Width / 2.0f, -Height / 2.0f, -Depth / 2.0f), glm::vec2(0.0f, 1.0f)); // Down Back Right
-		addVertex(glm::vec3(-Width / 2.0f, -Height / 2.0f, -Depth / 2.0f), glm::vec2(0.0f, 0.0f)); // Down Back Left
-		addVertex(glm::vec3(-Width / 2.0f, -Height / 2.0f, Depth / 2.0f), glm::vec2(1.0f, 0.0f)); // Down Front Left
-
-		for (unsigned int i = 0; i < 24; i += 4) {
-			addIndices(glm::uvec3(i, i + 1, i + 2));
-			addIndices(glm::uvec3(i + 2, i + 3, i));
+		// Define indices for drawing with GL_TRIANGLES
+		for (int i = 0; i < 6; i++) {
+			int start = i * 4;
+			Indices.emplace_back(start);
+			Indices.emplace_back(start + 1);
+			Indices.emplace_back(start + 2);
+			Indices.emplace_back(start);
+			Indices.emplace_back(start + 2);
+			Indices.emplace_back(start + 3);
 		}
 
 
 		Object::Initialize();
 	}
+
+private:
+	const glm::vec2 _texCoords[4] = {
+			{1.0f, 1.0f}, {0.0f, 1.0f}, {0.0f, 0.0f}, {1.0f, 0.0f}
+	};
+
+	// Define cube vertex positions
+	const glm::vec3 _positions[8] = {
+		{1.0f, 1.0f, 1.0f},  {-1.0f, 1.0f, 1.0f},  {-1.0f, -1.0f, 1.0f},  {1.0f, -1.0f, 1.0f},
+		{1.0f, 1.0f, -1.0f}, {-1.0f, 1.0f, -1.0f}, {-1.0f, -1.0f, -1.0f}, {1.0f, -1.0f, -1.0f}
+	};
+
+	// Define normals per face
+	const glm::vec3 _normals[6] = {
+		{0.0f, 0.0f, 1.0f},  // Front
+		{0.0f, 0.0f, -1.0f}, // Back
+		{-1.0f, 0.0f, 0.0f}, // Left
+		{1.0f, 0.0f, 0.0f},  // Right
+		{0.0f, 1.0f, 0.0f},  // Top
+		{0.0f, -1.0f, 0.0f}  // Bottom
+	};
+
+	// Define faces (each face has 4 vertices)
+	const int _faces[6][4] = {
+		{0, 3, 2, 1}, // Front
+		{4, 5, 6, 7}, // Back
+		{1, 2, 6, 5}, // Left
+		{0, 4, 7, 3}, // Right
+		{0, 1, 5, 4}, // Top
+		{2, 3, 7, 6}  // Bottom
+	};
 };
