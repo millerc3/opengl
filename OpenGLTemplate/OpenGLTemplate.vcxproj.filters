@@ -27,7 +27,7 @@
     <ClInclude Include="Libraries\include\KHR\khrplatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Shader.h">
+    <ClInclude Include="include\graphics\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\glm\detail\_features.hpp">
@@ -903,16 +903,28 @@
     <ClInclude Include="include\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Object.h">
+    <ClInclude Include="include\objects\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Cube.h">
+    <ClInclude Include="include\objects\Cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Material.h">
+    <ClInclude Include="include\graphics\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Light.h">
+    <ClInclude Include="include\objects\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lighting\LightProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lighting\LightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -930,6 +942,36 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\light\LightProperties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\light\LightManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
