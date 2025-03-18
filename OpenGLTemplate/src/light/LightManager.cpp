@@ -20,7 +20,6 @@ void LightManager::AddPointLight(PointLightData& pointLight)
 		throw std::runtime_error("Cannot add more point lights!");
 	}
 	pointLights.emplace_back(&pointLight);
-	std::cout << "Adding point light (" << pointLights.size() << ")" << std::endl;
 }
 
 void LightManager::AddSpotLight(SpotlightData& spotLight) {

@@ -99,6 +99,10 @@ int main()
 
 
 
+    SpotlightData flashlight;
+    LightManager::AddSpotLight(flashlight);
+
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -117,10 +121,12 @@ int main()
 
         // render
         glEnable(GL_DEPTH_TEST);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        
+        // Align flashlight with camera
+        flashlight.baseProperties.position = Game::mainCamera.Position;
+        flashlight.baseProperties.direction = Game::mainCamera.Front;
 
         // Move light
         float light_height = 1.5f;
@@ -138,11 +144,10 @@ int main()
         lightColor.x = sin(glfwGetTime() * 2.0f);
         lightColor.y = sin(glfwGetTime() * 0.7f);
         lightColor.z = sin(glfwGetTime() * 1.3f);
-
         light.SetColor(lightColor);
-        // Draw Light
-        light.Draw();
 
+        // Draw Lights
+        light.Draw();
         lowerLight.Draw();
 
 
@@ -150,11 +155,6 @@ int main()
         float cubeHeight = sin(glfwGetTime());
         glm::vec3 cubePos = glm::vec3(0, cubeHeight, 0);
         cube.Move(cubePos);
-
-        // Set light in the Cube shader
-        //cube.material.shader.setLightProperties(light.transform.Position, light.properties.baseProperties);
-
-        
 
         // draw cube
         cube.Draw();

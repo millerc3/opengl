@@ -164,12 +164,22 @@ void Shader::setLightProperties() {
 
 	// spot
 	setInt("numSpotLights", LightManager::spotLights.size());
+	for (int i = 0; i < LightManager::spotLights.size(); i++) {
+		std::string prefix = "spotLights[" + std::to_string(i) + "]";
+		setVec3((prefix + ".color").c_str(), LightManager::spotLights[i]->baseProperties.color);
+		setVec3((prefix + ".direction").c_str(), LightManager::spotLights[i]->baseProperties.direction);
+		setVec3((prefix + ".position").c_str(), LightManager::spotLights[i]->baseProperties.position);
+		setVec3((prefix + ".ambient").c_str(), LightManager::spotLights[i]->baseProperties.ambient);
+		setVec3((prefix + ".diffuse").c_str(), LightManager::spotLights[i]->baseProperties.diffuse);
+		setVec3((prefix + ".specular").c_str(), LightManager::spotLights[i]->baseProperties.specular);
 
-	/*setVec3("light.color", light.color);
-	setVec3("light.position", light.position);
-	setVec3("light.ambient", light.ambient);
-	setVec3("light.diffuse", light.diffuse);
-	setVec3("light.specular", light.specular);*/
+		setFloat((prefix + ".constant").c_str(), LightManager::spotLights[i]->physicalProperties.constant);
+		setFloat((prefix + ".linear").c_str(), LightManager::spotLights[i]->physicalProperties.linear);
+		setFloat((prefix + ".quadratic").c_str(), LightManager::spotLights[i]->physicalProperties.quadratic);
+
+		setFloat((prefix + ".cutOff").c_str(), LightManager::spotLights[i]->cutOff);
+		setFloat((prefix + ".outerCutOff").c_str(), LightManager::spotLights[i]->outerCutOff);
+	}
 }
 
 bool Shader::CheckShaderCompilation(unsigned int& id, const char* shaderHint, char* infoLog) {

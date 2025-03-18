@@ -56,6 +56,9 @@ PointLightData::PointLightData(glm::vec3 _color, glm::vec3 _direction, glm::vec3
 
 SpotlightData::SpotlightData() {
 	baseProperties = BaseLightData();
+	baseProperties.ambient = glm::vec3(0.0f);
+	baseProperties.diffuse = glm::vec3(1.0f);
+	baseProperties.specular = glm::vec3(1.0f);
 	physicalProperties = PhysicalLightData();
 	innerAngle = 12.5f;
 	outerAngle = 15.0f;

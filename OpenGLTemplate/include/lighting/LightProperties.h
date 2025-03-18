@@ -43,11 +43,9 @@ struct SpotlightData {
 	PhysicalLightData physicalProperties;
 	float innerAngle;
 	float outerAngle;
+	float cutOff;
+	float outerCutOff;
 
 	SpotlightData();
 	SpotlightData(glm::vec3 _color, glm::vec3 _direction, glm::vec3 _position, glm::vec3 _ambient, glm::vec3 _diffuse, glm::vec3 _specular, float _constant, float _linear, float _quadratic, float _innerAngle, float _outerAngle);
-
-private:
-	float cutOff;
-	float outerCutOff;
 };

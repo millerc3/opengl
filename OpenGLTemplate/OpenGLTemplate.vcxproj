@@ -540,11 +540,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)\include;$(ProjectDir)\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Development\Tools\glfw-3.4\build\src\Debug;$(SolutionDir)\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\Development\Tools\assimp\lib\Debug;D:\Development\Tools\glfw-3.4\build\src\Debug;$(SolutionDir)\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)\include;$(ProjectDir)\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Development\Tools\glfw-3.4\build\src\Debug;$(SolutionDir)\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\Development\Tools\assimp\lib\Debug;D:\Development\Tools\glfw-3.4\build\src\Debug;$(SolutionDir)\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -557,7 +557,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -587,7 +587,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
