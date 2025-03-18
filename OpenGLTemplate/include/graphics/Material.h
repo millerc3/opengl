@@ -32,7 +32,7 @@ public:
     Material(glm::vec3 color, float _shininess = 0.0f, const char* diffusePath = nullptr, const char* specularPath = nullptr, const char* emissionPath = nullptr);
 
     // Methods
-    GLuint loadTexture(char const* path);
+    static GLuint loadTexture(char const* path);
 
     void SetShader(Shader& _shader);
 

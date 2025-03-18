@@ -17,6 +17,7 @@
 #include <objects/Cube.h>
 #include <objects/Light.h>
 #include <Camera.h>
+#include <graphics/Model.h>
 
 #include <ctime>
 
@@ -82,26 +83,27 @@ int main()
     Shader lightShader("../data/shaders/shader.vert", "../data/shaders/light.frag");
     Shader lightShader2("../data/shaders/shader.vert", "../data/shaders/light.frag");
 
+    Shader backpackShader("../data/shaders/single_tex.vert", "../data/shaders/single_tex.frag");
+
     // Materials
     Material containerMat = Material(glm::vec3(1.0f), 32, "../data/textures/container.jpg");
     Material woodBoxMat = Material(glm::vec3(1.0f), 32, "../data/textures/container2.png", "../data/textures/container2_specular.png");
     Material matrixBox = Material(glm::vec3(1.0f), 32, "../data/textures/container2.png", "../data/textures/container2_specular.png", "../data/textures/matrix.jpg");
 
-    Cube cube = Cube();
-    cube.SetMaterial(woodBoxMat);
-    
-    Light light = Light();
-    light.material.SetShader(lightShader);
+    //Cube cube = Cube();
+    //cube.SetMaterial(woodBoxMat);
+    //
+    //Light light = Light();
+    //light.material.SetShader(lightShader);
+
+    //Light lowerLight = Light();
+    //lowerLight.material.SetShader(lightShader2);
+
+    //SpotlightData flashlight;
+    //LightManager::AddSpotLight(flashlight);
 
 
-    Light lowerLight = Light();
-    lowerLight.material.SetShader(lightShader2);
-
-
-
-    SpotlightData flashlight;
-    LightManager::AddSpotLight(flashlight);
-
+    Model backpack("../data/models/backpack/backpack.obj");
 
     // render loop
     // -----------
@@ -125,39 +127,51 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Align flashlight with camera
-        flashlight.baseProperties.position = Game::mainCamera.Position;
-        flashlight.baseProperties.direction = Game::mainCamera.Front;
+        //flashlight.baseProperties.position = Game::mainCamera.Position;
+        //flashlight.baseProperties.direction = Game::mainCamera.Front;
 
-        // Move light
-        float light_height = 1.5f;
-        float light_radius = 3.0f;
-        glm::vec3 lightPos = glm::vec3(cos(glfwGetTime()) * light_radius, light_height, sin(glfwGetTime()) * light_radius);
-        light.Move(lightPos);
-        light.transform.Scale = glm::vec3(.2f);
-        glm::vec3 lowerLightPos = glm::vec3(-cos(glfwGetTime()) * light_radius, -1.5f, sin(glfwGetTime()) * light_radius);
-        lowerLight.Move(lowerLightPos);
-        lowerLight.transform.Scale = glm::vec3(.2f);
-
-
-        // Light info
-        glm::vec3 lightColor;
-        lightColor.x = sin(glfwGetTime() * 2.0f);
-        lightColor.y = sin(glfwGetTime() * 0.7f);
-        lightColor.z = sin(glfwGetTime() * 1.3f);
-        light.SetColor(lightColor);
-
-        // Draw Lights
-        light.Draw();
-        lowerLight.Draw();
+        //// Move light
+        //float light_height = 1.5f;
+        //float light_radius = 3.0f;
+        //glm::vec3 lightPos = glm::vec3(cos(glfwGetTime()) * light_radius, light_height, sin(glfwGetTime()) * light_radius);
+        //light.Move(lightPos);
+        //light.transform.Scale = glm::vec3(.2f);
+        //glm::vec3 lowerLightPos = glm::vec3(-cos(glfwGetTime()) * light_radius, -1.5f, sin(glfwGetTime()) * light_radius);
+        //lowerLight.Move(lowerLightPos);
+        //lowerLight.transform.Scale = glm::vec3(.2f);
 
 
-        // Move cube
-        float cubeHeight = sin(glfwGetTime());
-        glm::vec3 cubePos = glm::vec3(0, cubeHeight, 0);
-        cube.Move(cubePos);
+        //// Light info
+        //glm::vec3 lightColor;
+        //lightColor.x = sin(glfwGetTime() * 2.0f);
+        //lightColor.y = sin(glfwGetTime() * 0.7f);
+        //lightColor.z = sin(glfwGetTime() * 1.3f);
+        //light.SetColor(lightColor);
+
+        //// Draw Lights
+        //light.Draw();
+        //lowerLight.Draw();
+
+
+        //// Move cube
+        //float cubeHeight = sin(glfwGetTime());
+        //glm::vec3 cubePos = glm::vec3(0, cubeHeight, 0);
+        //cube.Move(cubePos);
+        
 
         // draw cube
-        cube.Draw();
+        //cube.Draw();
+        backpackShader.use();
+        backpackShader.setFloat("time", Game::lastFrameTime);
+        // Apply camera information to shader
+        backpackShader.setMat4("view", Game::mainCamera.GetViewMatrix());
+        backpackShader.setMat4("projection", Game::mainCamera.GetProjectionMatrix());
+        backpackShader.setVec3("viewPos", Game::mainCamera.Position);
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        backpackShader.setMat4("model", model);
+        backpack.Draw(backpackShader);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -165,9 +179,9 @@ int main()
         glfwPollEvents();
     }
 
-    cube.Destroy();
-    light.Destroy();
-    lowerLight.Destroy();
+    //cube.Destroy();
+    //light.Destroy();
+    //lowerLight.Destroy();
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
