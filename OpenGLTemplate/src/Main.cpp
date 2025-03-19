@@ -19,6 +19,10 @@
 #include <Camera.h>
 #include <graphics/Model.h>
 
+#include <objects/GameObject.h>
+#include <components/Component.h>
+#include <components/Transform.h>
+
 #include <ctime>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -104,6 +108,12 @@ int main()
 
 
     Model backpack("../data/models/backpack/backpack.obj");
+
+    GameObject testObj;
+    std::cout << testObj.transform->position.x << std::endl;
+    std::cout << "Moving on x axis" << std::endl;
+    testObj.transform->Translate(glm::vec3(1.0f, 0.0f, 0.0f));
+    std::cout << testObj.transform->position.x << std::endl;
 
     // render loop
     // -----------

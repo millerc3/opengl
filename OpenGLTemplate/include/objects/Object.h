@@ -16,7 +16,7 @@
 class Object {
 public:
 	// Space Vectors
-	Transform transform;
+	OldTransform transform;
 
 	// Vertices
 	std::vector<float> Vertices;

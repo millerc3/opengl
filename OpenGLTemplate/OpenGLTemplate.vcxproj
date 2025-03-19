@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\components\Component.h" />
+    <ClInclude Include="include\components\Transform.h" />
+    <ClInclude Include="include\objects\GameObject.h" />
     <ClInclude Include="Libraries\include\assimp\aabb.h" />
     <ClInclude Include="Libraries\include\assimp\ai_assert.h" />
     <ClInclude Include="Libraries\include\assimp\anim.h" />
@@ -414,12 +417,15 @@
     <ClCompile Include="include\glm\detail\glm.cpp" />
     <ClCompile Include="include\glm\glm.cppm" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\components\Component.cpp" />
+    <ClCompile Include="src\components\Transform.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\graphics\Mesh.cpp" />
     <ClCompile Include="src\graphics\Model.cpp" />
     <ClCompile Include="src\light\LightManager.cpp" />
     <ClCompile Include="src\objects\Cube.cpp" />
+    <ClCompile Include="src\objects\GameObject.cpp" />
     <ClCompile Include="src\objects\Light.cpp" />
     <ClCompile Include="src\light\LightProperties.cpp" />
     <ClCompile Include="src\Main.cpp" />

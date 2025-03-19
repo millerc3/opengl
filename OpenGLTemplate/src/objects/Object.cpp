@@ -13,11 +13,11 @@ Object::Object() {
 
 // Members
 void Object::Move(glm::vec3 newPos) {
-	transform.Position = newPos;
+	transform.position = newPos;
 }
 
 void Object::Rotate(glm::vec3 newRot) {
-	transform.Rotation = newRot;
+	transform.rotation = newRot;
 }
 
 void Object::Draw() {
@@ -99,10 +99,10 @@ void Object::SetMaterial(Material &mat) {
 
 glm::mat4 Object::GetModelTransformationMatrix() {
 	glm::mat4 trans = glm::mat4(1);
-	trans = glm::translate(trans, transform.Position);
-	trans = glm::scale(trans, transform.Scale);
+	trans = glm::translate(trans, transform.position);
+	trans = glm::scale(trans, transform.scale);
 
-	glm::quat rotationQuat = glm::quat(glm::radians(transform.Rotation));
+	glm::quat rotationQuat = glm::quat(glm::radians(transform.rotation));
 	glm::mat4 rotationMat = glm::toMat4(rotationQuat);
 	trans *= rotationMat;
 
