@@ -15,6 +15,24 @@
 
 class Object {
 public:
+	std::string name = "";
+	unsigned int id() const { return this->_id; }
+
+	Object() {
+		_id = oNextID++;
+		name = "Object(" + std::to_string(id()) + ")";
+	}
+
+private:
+	static inline unsigned int oNextID = 0;
+	unsigned int _id;
+};
+
+
+// DELETE BELOW ////////////////////////////////////////////
+
+class OldObject {
+public:
 	// Space Vectors
 	OldTransform transform;
 
@@ -26,9 +44,9 @@ public:
 	glm::vec3 Color;
 
 	// Material
-	Material material;
+	OldMaterial material;
 
-	Object();
+	OldObject();
 
 
 	virtual void Move(glm::vec3 newPos);
@@ -45,7 +63,7 @@ public:
 
 	virtual void SetColor(glm::vec3 color);
 
-	void SetMaterial(Material &mat);
+	void SetMaterial(OldMaterial &mat);
 
 	glm::mat4 GetModelTransformationMatrix();
 

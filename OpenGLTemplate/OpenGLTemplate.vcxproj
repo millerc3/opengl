@@ -412,10 +412,12 @@
     <ClInclude Include="Libraries\include\GLFW\glfw3.h" />
     <ClInclude Include="Libraries\include\GLFW\glfw3native.h" />
     <ClInclude Include="Libraries\include\KHR\khrplatform.h" />
+    <ClInclude Include="include\components\RendererComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\glm\detail\glm.cpp" />
     <ClCompile Include="include\glm\glm.cppm" />
+    <ClCompile Include="src\components\RendererComponent.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\components\Component.cpp" />
     <ClCompile Include="src\components\Transform.cpp" />

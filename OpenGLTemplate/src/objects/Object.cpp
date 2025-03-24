@@ -6,21 +6,29 @@
 
 #include <iostream>
 
+
+
+
+
+
+// DELETE BELOW ////////////////////////////////////////////
+
+
 // Constructors
-Object::Object() {
+OldObject::OldObject() {
 	Color = glm::vec3(1);
 }
 
 // Members
-void Object::Move(glm::vec3 newPos) {
+void OldObject::Move(glm::vec3 newPos) {
 	transform.position = newPos;
 }
 
-void Object::Rotate(glm::vec3 newRot) {
+void OldObject::Rotate(glm::vec3 newRot) {
 	transform.rotation = newRot;
 }
 
-void Object::Draw() {
+void OldObject::Draw() {
 	Shader &shader = material.shader;
 	shader.use();
 	shader.setFloat("time", Game::lastFrameTime);
@@ -43,17 +51,17 @@ void Object::Draw() {
 	glBindVertexArray(0);
 }
 
-void Object::Destroy() {
+void OldObject::Destroy() {
 	DeleteBuffers();
 }
 
-void Object::DeleteBuffers() {
+void OldObject::DeleteBuffers() {
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 	glDeleteBuffers(1, &_EBO);
 }
 
-void Object::Initialize() {
+void OldObject::Initialize() {
 	// TODO: raise error if vertices size is too big
 
 	glGenVertexArrays(1, &_VAO);
@@ -87,17 +95,17 @@ void Object::Initialize() {
 	glBindVertexArray(0);
 }
 
-void Object::SetColor(glm::vec3 color) {
+void OldObject::SetColor(glm::vec3 color) {
 	Color = color;
 	updateVertexColors(Color);
 	Reinitialize();
 }
 
-void Object::SetMaterial(Material &mat) {
+void OldObject::SetMaterial(OldMaterial &mat) {
 	material = mat;
 }
 
-glm::mat4 Object::GetModelTransformationMatrix() {
+glm::mat4 OldObject::GetModelTransformationMatrix() {
 	glm::mat4 trans = glm::mat4(1);
 	trans = glm::translate(trans, transform.position);
 	trans = glm::scale(trans, transform.scale);
@@ -109,7 +117,7 @@ glm::mat4 Object::GetModelTransformationMatrix() {
 	return trans;
 }
 
-void Object::addVertex(glm::vec3 pos, glm::vec2 texCoord, glm::vec3 norm) {
+void OldObject::addVertex(glm::vec3 pos, glm::vec2 texCoord, glm::vec3 norm) {
 	Vertices.emplace_back(pos.x);
 	Vertices.emplace_back(pos.y);
 	Vertices.emplace_back(pos.z);
@@ -126,13 +134,13 @@ void Object::addVertex(glm::vec3 pos, glm::vec2 texCoord, glm::vec3 norm) {
 	Vertices.emplace_back(norm.z);
 }
 
-void Object::addIndices(glm::uvec3 triangle) {
+void OldObject::addIndices(glm::uvec3 triangle) {
 	Indices.emplace_back(triangle.x);
 	Indices.emplace_back(triangle.y);
 	Indices.emplace_back(triangle.z);
 }
 
-void Object::updateVertexColors(glm::vec3 color) {
+void OldObject::updateVertexColors(glm::vec3 color) {
 	for (int i = 0; i < Vertices.size(); i += 11) {
 		Vertices[i + 3] = color.x;
 		Vertices[i + 4] = color.y;
@@ -140,7 +148,7 @@ void Object::updateVertexColors(glm::vec3 color) {
 	}
 }
 
-void Object::Reinitialize() {
+void OldObject::Reinitialize() {
 	DeleteBuffers();
 	Initialize();
 }

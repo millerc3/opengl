@@ -90,9 +90,9 @@ int main()
     Shader backpackShader("../data/shaders/single_tex.vert", "../data/shaders/single_tex.frag");
 
     // Materials
-    Material containerMat = Material(glm::vec3(1.0f), 32, "../data/textures/container.jpg");
-    Material woodBoxMat = Material(glm::vec3(1.0f), 32, "../data/textures/container2.png", "../data/textures/container2_specular.png");
-    Material matrixBox = Material(glm::vec3(1.0f), 32, "../data/textures/container2.png", "../data/textures/container2_specular.png", "../data/textures/matrix.jpg");
+    OldMaterial containerMat = OldMaterial(glm::vec3(1.0f), 32, "../data/textures/container.jpg");
+    OldMaterial woodBoxMat = OldMaterial(glm::vec3(1.0f), 32, "../data/textures/container2.png", "../data/textures/container2_specular.png");
+    OldMaterial matrixBox = OldMaterial(glm::vec3(1.0f), 32, "../data/textures/container2.png", "../data/textures/container2_specular.png", "../data/textures/matrix.jpg");
 
     //Cube cube = Cube();
     //cube.SetMaterial(woodBoxMat);
@@ -110,10 +110,18 @@ int main()
     Model backpack("../data/models/backpack/backpack.obj");
 
     GameObject testObj;
-    std::cout << testObj.transform->position.x << std::endl;
+    Transform* objTransform = testObj.GetComponent<Transform>();
+    GameObject testChild("TestChild");
+    testChild.transform->Translate(glm::vec3(1.0f, 0.0f, 0.0f));
+    testObj.AddChild(testChild);
+
+    std::cout << objTransform->position().x << std::endl;
     std::cout << "Moving on x axis" << std::endl;
     testObj.transform->Translate(glm::vec3(1.0f, 0.0f, 0.0f));
-    std::cout << testObj.transform->position.x << std::endl;
+    std::cout << "main: " << objTransform->position().x << std::endl;
+
+    std::cout << "cihld: " << testChild.transform->position().x << std::endl;
+    
 
     // render loop
     // -----------

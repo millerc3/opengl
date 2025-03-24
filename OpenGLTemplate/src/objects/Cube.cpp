@@ -28,5 +28,5 @@ void Cube::Initialize() {
 		Indices.emplace_back(start + 3);
 	}
 
-	Object::Initialize();
+	OldObject::Initialize();
 }

@@ -2,7 +2,7 @@
 
 #include <objects/Object.h>
 
-class Cube : public Object {
+class Cube : public OldObject {
 public:
 	Cube();
 	Cube(glm::vec3 color);
